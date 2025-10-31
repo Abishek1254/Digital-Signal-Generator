@@ -4,6 +4,11 @@ A **Digital Signal Visualization Tool** built using **C++** and **OpenGL (FreeGL
 It includes real-time signal drawing, scaling, scrolling, animation, and automatic grid alignment.
 
 ---
+## 👨‍💻 Contributors
+- **Abishek Salaria** — *2023BITE024*  
+- **Anant Gautam** — *2023BITE037*  
+- **Ansh Jasrotia** — *2023BITE010*
+---
 
 ## 🧠 Features
 
