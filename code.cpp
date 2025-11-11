@@ -1,4 +1,3 @@
-// full_program_fixed.cpp
 #include <iostream>
 #include <vector>
 #include <string>
@@ -38,17 +37,36 @@ string longestPalindrome(const string& s) {
     return s.substr(start, maxLen);
 }
 
-// ------------------ Encoding Functions ------------------
-string encodeNRZL(const string &data) { return data; }
+// ------------------ ALL ENCODING FUNCTIONS ------------------
+// NRZ-L: 1 = + , 0 = -
+string encodeNRZL (const string &data) {
+    string encoded; // This variable will store our output
+    for(char bit : data) { // we basically go through each bit in the input string
+        if(bit == '1') 
+        encoded += '+';   // If bit is 1, add a + to the encoded string
 
-string encodeNRZI(const string &data) {
-    string encoded; char prev = '0';
-    for (char bit : data) {
-        if (bit == '1') prev = (prev == '0') ? '1' : '0';
-        encoded += prev;
+        else 
+        encoded += '-';  // If bit is 0, add a - to the encoded string
     }
     return encoded;
 }
+
+// NRZ-I: transition on '1'
+string encodeNRZI(const string &data) {
+    string encoded;
+    char current = '-';  // start with negative level (convention)
+
+    for(char bit : data) {
+        if(bit == '1') {
+            // Flip signal
+            current = (current == '+') ? '-' : '+';
+        }
+        // If bit is 0 → maintain current level
+        encoded += current;
+    }
+    return encoded;
+}
+
 
 string encodeManchester(const string &data) {
     string encoded;
@@ -65,7 +83,8 @@ string encodeDiffManchester(const string &data) {
             encoded += prev;
             prev = (prev == '0') ? '1' : '0';
             encoded += prev;
-        } else {
+        } 
+        else {
             encoded += prev;
             prev = (prev == '0') ? '1' : '0';
             encoded += prev;
@@ -115,7 +134,6 @@ void scrambleB8ZS(char* bits, int* encoded, int n) {
     }
 }
 
-// HDB3 - 
 void scrambleHDB3(char* bits, int* encoded, int n) {
     int zeroCount = 0;
     bool flag = true;      
@@ -139,7 +157,6 @@ void scrambleHDB3(char* bits, int* encoded, int n) {
                 encoded[i-3] = prev ? -1 : 1;   
                 encoded[i] = prev ? -1 : 1;     
             } else {
-            
                 encoded[i] = prev ? 1 : -1;     
             }
             zeroCount = 0;
@@ -147,7 +164,6 @@ void scrambleHDB3(char* bits, int* encoded, int n) {
             prev = (encoded[i] > 0);
         }
     }
-
 }
 
 // ------------ PCM/Delta Modulation ---------------
@@ -165,6 +181,7 @@ vector<int> encodePCM(const vector<double>& samples, int levels = 16) {
     }
     return quantized;
 }
+
 string quantizedToBinary(const vector<int>& quantized, int bits = 4) {
     string bin;
     for (int q : quantized)
@@ -172,6 +189,7 @@ string quantizedToBinary(const vector<int>& quantized, int bits = 4) {
             bin += ((q & (1 << i)) ? '1' : '0');
     return bin;
 }
+
 string encodeDeltaModulation(const vector<double>& samples) {
     string encoded;
     double prev = 0.0, step = 1.0;
