@@ -99,4 +99,7 @@ After successful compilation, execute the program:
 ./Signal_Generator.exe
 ```
 
+## References
+- *ChatGPT*
+- *Class Notes*
 
